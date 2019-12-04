@@ -5,7 +5,7 @@ def rule1(n):
 	#first, see if there are any doubles. If there aren't, don't have to continue.
 	if s[0]==s[1] or s[1]==s[2] or s[2]==s[3] or s[3]==s[4] or s[4]==s[5]:
 		for i in range(0,5):
-			if s.count(str(i)) == 2:
+			if s.count(s[i]) == 2:
 				bReturn = True
 	return bReturn
 		
