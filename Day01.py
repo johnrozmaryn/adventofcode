@@ -4,7 +4,7 @@ def fuelreq(massinput):
     n = floor(massinput / 3.0) - 2
     return n
 
-f=open("Day01.input","r")
+f=open("c:/code/adventofcode/Day01.input","r")
 contents = f.readlines()
 
 totalfuel = 0

@@ -17,6 +17,7 @@ for amp in amps:
     ampindex = amps.index(amp)
     mem.append(prog1)
     inputs.append(startseq[ampindex])
+    print(inputs)
     outputs.append(0)
     busy.append(False)
     isinitialized.append(False)
@@ -26,18 +27,17 @@ for amp in amps:
 
 
 def evalpos(amp,startpos):
-    global input
-    global output
+    global inputs
+    global outputs
     global hit99
     global pointer
     global mem
-    jmp = 0 #how far my readindex will jump after the instruction.
     ampindex = amps.index(amp)
         
     if startpos > len(mem[ampindex])-1:
         exit
     elif hit99[ampindex]:
-        print("Found a 99 at pos:",startpos)
+        return 99
     else:
         sCmd = str(mem[ampindex][startpos]).zfill(5) #I now have a string of 5 characters, nnnnn
         opcode = int(sCmd[-2:]) #number from last two characters in the string, nnnXX
@@ -113,24 +113,24 @@ def evalpos(amp,startpos):
 
 for amp in amps:
     ampindex = amps.index(amp)
+    print("Amp: ",amps[ampindex])
     inputs[ampindex] = startseq[ampindex]
-    print("orig",mem[ampindex])
-    print("originput",inputs[ampindex])
-    print("origoutput",outputs[ampindex])
+    print("mem_initial",mem[ampindex])
+    print("input_initial",inputs[ampindex])
     evalpos(amp,0)
     hit99[ampindex] = False
     pointer[ampindex] = 0
-    print("second",mem[ampindex])
-    print("secondinput",inputs[ampindex])
-    print("secondoutput",outputs[ampindex])
+    print("mem_after1run",mem[ampindex])
+    print("output_after1run",outputs[ampindex])
     if ampindex == 0:
         inputs[ampindex] = 0
     else:
         inputs[ampindex] = outputs[ampindex - 1]
+    print("input_beforesecondrun",inputs[ampindex])
+    print("mem_beforesecondrun",mem[ampindex])
     evalpos(amp,0)
-    print("third",mem[ampindex])
-    print("thirdinput",inputs[ampindex])
-    print("thirdoutput",outputs[ampindex])
+    print("mem_aftersecondrun",mem[ampindex])
+    print("output_after",outputs[ampindex])
     # print(outputs[ampindex])
 
  
