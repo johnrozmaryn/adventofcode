@@ -1,6 +1,7 @@
+from itertools import permutations
 
 prog1 = [3,15,3,16,1002,16,10,16,1,16,15,15,4,15,99,0,0]
-startseq = [4,3,2,1,0]
+startseqlist = list(permutations([4,3,2,1,0]))
 
 mem = []
 inputs = []
@@ -16,7 +17,7 @@ amps = ['A','B','C','D','E']
 for amp in amps:
     ampindex = amps.index(amp)
     mem.append(prog1)
-    inputs.append(startseq[ampindex])
+    # inputs.append(startseq[ampindex])
     print(inputs)
     outputs.append(0)
     busy.append(False)
@@ -60,7 +61,7 @@ def evalpos(amp,startpos):
             pointer[ampindex] += 4
        
         elif opcode == 3: #write input to parm1 address
-            mem[ampindex][mem[ampindex][startpos+1]] = inputs[ampindex]
+            mem[ampindex][mem[ampindex][startpos+1]] = inputs[ampindex].pop()
             pointer[ampindex] += 2
        
         elif opcode == 4: #write parm1 to output
@@ -111,27 +112,53 @@ def evalpos(amp,startpos):
             exit()
         evalpos(amps[ampindex],pointer[ampindex])
 
-for amp in amps:
-    ampindex = amps.index(amp)
-    print("Amp: ",amps[ampindex])
-    inputs[ampindex] = startseq[ampindex]
-    print("mem_initial",mem[ampindex])
-    print("input_initial",inputs[ampindex])
-    evalpos(amp,0)
-    hit99[ampindex] = False
-    pointer[ampindex] = 0
-    print("mem_after1run",mem[ampindex])
-    print("output_after1run",outputs[ampindex])
-    if ampindex == 0:
-        inputs[ampindex] = 0
-    else:
-        inputs[ampindex] = outputs[ampindex - 1]
-    print("input_beforesecondrun",inputs[ampindex])
-    print("mem_beforesecondrun",mem[ampindex])
-    evalpos(amp,0)
-    print("mem_aftersecondrun",mem[ampindex])
-    print("output_after",outputs[ampindex])
-    # print(outputs[ampindex])
+def evalthrust(startseq):
+    global mem
+    global inputs
+    global busy
+    global isinitialized
+    global hit99
+    global pointer
+    
+    mem = []
+    inputs = []
+    outputs = []
+    busy = []
+    isinitialized = []
+    hit99 = []
+    pointer = []
+
+    for amp in amps:
+        ampindex = amps.index(amp)
+        mem.append(prog1)
+        outputs.append(0)
+        busy.append(False)
+        isinitialized.append(False)
+        hit99.append(False)
+        pointer.append(0)
+    
+    for amp in amps:
+        ampindex = amps.index(amp)
+        inputs.append([])
+        if ampindex == 0:
+            inputs[ampindex].append(0)
+        else:
+            inputs[ampindex].append(outputs[ampindex-1])
+        inputs[ampindex].append(startseq[ampindex])
+        print(amp,inputs)
+        evalpos(amps[ampindex],0)
+        print(mem[ampindex])
+        print(outputs[ampindex])
+
+
+    return outputs
+  
+print(evalthrust([4,3,2,1,0]))
+print(inputs)
+# for seq in startseqlist:
+    # print(seq)
+    # print(evalthrust(seq))
+    
 
  
     
