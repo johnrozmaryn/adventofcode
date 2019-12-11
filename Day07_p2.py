@@ -1,6 +1,6 @@
 from itertools import permutations
 
-prog1 = [3,52,1001,52,-5,52,3,53,1,52,56,54,1007,54,5,55,1005,55,26,1001,54,-5,54,1105,1,12,1,53,54,53,1008,54,0,55,1001,55,1,55,2,53,55,53,4,53,1001,56,-1,56,1005,56,6,99,0,0,0,0,10]
+prog1 = [3,26,1001,26,-4,26,3,27,1002,27,2,27,1,27,26,27,4,27,1001,28,-1,28,1005,28,6,99,0,0,5]
 startseqlist = list(permutations([9,8,7,6,5]))
 
 mem = []
@@ -34,6 +34,8 @@ def evalpos(amp,startpos):
     global pointer
     global mem
     ampindex = amps.index(amp)
+    print('entering evlapos for amp index', ampindex)
+    print('memory is',mem[ampindex])
         
     if startpos > len(mem[ampindex])-1:
         exit
@@ -53,6 +55,8 @@ def evalpos(amp,startpos):
             p1 = mem[ampindex][startpos+1] if p1imm else mem[ampindex][mem[ampindex][startpos+1]]
             p2 = mem[ampindex][startpos+2] if p2imm else mem[ampindex][mem[ampindex][startpos+2]]
             mem[ampindex][mem[ampindex][startpos+3]] = p1 + p2
+            print('didopcode1 at pointer',pointer[ampindex],'in amp',ampindex)
+            print('using p1',p1,' and p2', p2)
             pointer[ampindex] += 4
        
         elif opcode == 2: #multiply next two parms
@@ -63,12 +67,20 @@ def evalpos(amp,startpos):
        
         elif opcode == 3: #write input to parm1 address
             if len(inputs[ampindex]) > 0:
-                mem[ampindex][mem[ampindex][startpos+1]] = inputs[ampindex].pop()
+                #mem[ampindex][startpos+1] = inputs[ampindex].pop()
+                print('membeforepop',ampindex,mem[ampindex])
+                numtoadd = inputs[ampindex].pop()
+                print('numtoadd',numtoadd)
+                mem[ampindex][mem[ampindex][startpos+1]] = numtoadd
+                # mem[ampindex][mem[ampindex][startpos+1]] = inputs[ampindex].pop()
+                print('memafterpop',ampindex,mem[ampindex])
+                print('didopcode3 at ponter',pointer[ampindex],'in amp',ampindex)
                 pointer[ampindex] += 2
             else:
                 waiting[ampindex] = True
        
         elif opcode == 4: #write parm1 to output
+            print('entering opcode 4')
             p1 = mem[ampindex][startpos+1] if p1imm else mem[ampindex][mem[ampindex][startpos+1]]
             outputs[ampindex] = p1
             if ampindex == len(amps)-1:
@@ -120,7 +132,9 @@ def evalpos(amp,startpos):
             print("Invalid code:",opcode," at position ", startpos)
             print(mem[ampindex])
             exit()
- #       evalpos(amps[ampindex],pointer[ampindex])
+        # evalpos(amps[ampindex],pointer[ampindex])
+        print('exiting evalpos for amp', ampindex)
+        print('mem when exiting', mem[ampindex])
 
 def evalthrust(startseq):
     global mem
@@ -148,25 +162,37 @@ def evalthrust(startseq):
         isinitialized.append(False)
         hit99.append(False)
         pointer.append(0)
-  
-        if ampindex == 0:
-            inputs[ampindex].append(0) 
         
         inputs[ampindex].insert(0,startseq[ampindex])
-    print('inputs',inputs)
-    print('outputs',outputs)
+ 
+        if ampindex == 0:
+            inputs[ampindex].insert(0,0)     
+            
+    # print('inputs',inputs)
+    # print('outputs',outputs)
         
-    while not any(hit99):
-        print('waiting',waiting)
-        print('hit99',hit99)
+    while not hit99[len(hit99)-1]:
+        # print('waiting',waiting)
+        # print('hit99',hit99)
+        # print('outputs',outputs)
         for amp in amps:
             ampindex = amps.index(amp)
+            print('***ampindex',ampindex)
+            print('-->allmemory',mem)
             if not waiting[ampindex]:
+                if ampindex == 0:
+                    print('inputs',inputs[ampindex])
+                    print('output',outputs[ampindex])
+                    print('membefore',ampindex,mem[ampindex])
+                print('ampindex for evalpos ',ampindex)
+                print('mem for that amp', mem[ampindex])
                 evalpos(amps[ampindex],pointer[ampindex])
+                if ampindex == 0:
+                    print('memafter ',mem[ampindex])
 
     return outputs[len(outputs)-1]
 
-print(evalthrust([9,7,8,5,6]))
+print(evalthrust([9,8,7,6,999]))
 print('last data')
 print(mem)
 print('outputs',outputs)
