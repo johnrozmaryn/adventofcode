@@ -6,11 +6,12 @@ startseqlist = list(permutations([9,8,7,6,5]))
 mem = {}
 inputs = []
 outputs = []
+relbase = []
 waiting = []
 isinitialized = []
 hit99 = []
 pointer = []
-amps = ['A','B','C','D','E']
+amps = ['A']
 
 def evalpos(amp,startpos):
     global inputs
@@ -115,6 +116,7 @@ def evalthrust(startseq):
     global isinitialized
     global hit99
     global pointer
+    global relbase
     
     mem = {}
     inputs = []
@@ -123,18 +125,22 @@ def evalthrust(startseq):
     isinitialized = []
     hit99 = []
     pointer = []
+    relbase = []
 
     for amp in amps:
         ampindex = amps.index(amp)
-        for memindex in range(1,len(prog1)):
-            mem[ampindex]
+	mem[ampindex]={}
+        for memindex in range(0,len(prog1)):
+            mem[ampindex][memindex]=prog1[memindex]
         inputs.append([])
         outputs.append(0)
         waiting.append(False)
         isinitialized.append(False)
         hit99.append(False)
         pointer.append(0)
-        
+        relbase.append(len(mem[ampindex]))
+        mem[ampindex][relbase[ampindex]] = 0
+
         inputs[ampindex].insert(0,startseq[ampindex])
         if ampindex == 0:
             inputs[ampindex].insert(0,0)     
