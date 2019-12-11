@@ -1,13 +1,12 @@
 from itertools import permutations
 
-# prog1 = [3,15,3,16,1002,16,10,16,1,16,15,15,4,15,99,555,555]
-prog1 = [3,8,1001,8,10,8,105,1,0,0,21,34,47,72,93,110,191,272,353,434,99999,3,9,102,3,9,9,1001,9,3,9,4,9,99,3,9,102,4,9,9,1001,9,4,9,4,9,99,3,9,101,3,9,9,1002,9,3,9,1001,9,2,9,1002,9,2,9,101,4,9,9,4,9,99,3,9,1002,9,3,9,101,5,9,9,102,4,9,9,1001,9,4,9,4,9,99,3,9,101,3,9,9,102,4,9,9,1001,9,3,9,4,9,99,3,9,101,2,9,9,4,9,3,9,1001,9,2,9,4,9,3,9,101,2,9,9,4,9,3,9,1002,9,2,9,4,9,3,9,102,2,9,9,4,9,3,9,1002,9,2,9,4,9,3,9,102,2,9,9,4,9,3,9,101,1,9,9,4,9,3,9,1002,9,2,9,4,9,3,9,1002,9,2,9,4,9,99,3,9,102,2,9,9,4,9,3,9,1002,9,2,9,4,9,3,9,102,2,9,9,4,9,3,9,1002,9,2,9,4,9,3,9,1001,9,1,9,4,9,3,9,1001,9,2,9,4,9,3,9,102,2,9,9,4,9,3,9,101,1,9,9,4,9,3,9,1001,9,1,9,4,9,3,9,101,2,9,9,4,9,99,3,9,1001,9,1,9,4,9,3,9,1001,9,2,9,4,9,3,9,101,2,9,9,4,9,3,9,101,2,9,9,4,9,3,9,1001,9,1,9,4,9,3,9,1001,9,1,9,4,9,3,9,1001,9,1,9,4,9,3,9,102,2,9,9,4,9,3,9,101,2,9,9,4,9,3,9,1001,9,2,9,4,9,99,3,9,1002,9,2,9,4,9,3,9,1001,9,2,9,4,9,3,9,102,2,9,9,4,9,3,9,1002,9,2,9,4,9,3,9,102,2,9,9,4,9,3,9,101,2,9,9,4,9,3,9,1002,9,2,9,4,9,3,9,1001,9,2,9,4,9,3,9,102,2,9,9,4,9,3,9,1002,9,2,9,4,9,99,3,9,101,1,9,9,4,9,3,9,101,1,9,9,4,9,3,9,101,2,9,9,4,9,3,9,102,2,9,9,4,9,3,9,1001,9,2,9,4,9,3,9,101,1,9,9,4,9,3,9,102,2,9,9,4,9,3,9,1001,9,1,9,4,9,3,9,101,1,9,9,4,9,3,9,1002,9,2,9,4,9,99]
-startseqlist = list(permutations([4,3,2,1,0]))
+prog1 = [3,52,1001,52,-5,52,3,53,1,52,56,54,1007,54,5,55,1005,55,26,1001,54,-5,54,1105,1,12,1,53,54,53,1008,54,0,55,1001,55,1,55,2,53,55,53,4,53,1001,56,-1,56,1005,56,6,99,0,0,0,0,10]
+startseqlist = list(permutations([9,8,7,6,5]))
 
 mem = []
 inputs = []
 outputs = []
-busy = []
+waiting = []
 isinitialized = []
 hit99 = []
 pointer = []
@@ -21,7 +20,7 @@ for amp in amps:
     inputs = []
     # print(inputs)
     outputs.append(0)
-    busy.append(False)
+    waiting.append(False)
     isinitialized.append(False)
     hit99.append(False)
     pointer.append(0)
@@ -39,7 +38,8 @@ def evalpos(amp,startpos):
     if startpos > len(mem[ampindex])-1:
         exit
     elif hit99[ampindex]:
-        return 99
+#        return 99
+        exit
     else:
         sCmd = str(mem[ampindex][startpos]).zfill(5) #I now have a string of 5 characters, nnnnn
         opcode = int(sCmd[-2:]) #number from last two characters in the string, nnnXX
@@ -62,12 +62,21 @@ def evalpos(amp,startpos):
             pointer[ampindex] += 4
        
         elif opcode == 3: #write input to parm1 address
-            mem[ampindex][mem[ampindex][startpos+1]] = inputs[ampindex].pop()
-            pointer[ampindex] += 2
+            if len(inputs[ampindex]) > 0:
+                mem[ampindex][mem[ampindex][startpos+1]] = inputs[ampindex].pop()
+                pointer[ampindex] += 2
+            else:
+                waiting[ampindex] = True
        
         elif opcode == 4: #write parm1 to output
             p1 = mem[ampindex][startpos+1] if p1imm else mem[ampindex][mem[ampindex][startpos+1]]
             outputs[ampindex] = p1
+            if ampindex == len(amps)-1:
+                inputs[0].insert(0,p1)
+                waiting[0] = False
+            else:
+                inputs[ampindex+1].insert(0,p1)
+                waiting[ampindex+1] = False
             pointer[ampindex] += 2
        
         elif opcode == 5: #jump-if-true
@@ -111,13 +120,13 @@ def evalpos(amp,startpos):
             print("Invalid code:",opcode," at position ", startpos)
             print(mem[ampindex])
             exit()
-        evalpos(amps[ampindex],pointer[ampindex])
+ #       evalpos(amps[ampindex],pointer[ampindex])
 
 def evalthrust(startseq):
     global mem
     global outputs
     global inputs
-    global busy
+    global waiting
     global isinitialized
     global hit99
     global pointer
@@ -125,7 +134,7 @@ def evalthrust(startseq):
     mem = []
     inputs = []
     outputs = []
-    busy = []
+    waiting = []
     isinitialized = []
     hit99 = []
     pointer = []
@@ -133,33 +142,45 @@ def evalthrust(startseq):
     for amp in amps:
         ampindex = amps.index(amp)
         mem.append(prog1)
+        inputs.append([])
         outputs.append(0)
-        busy.append(False)
+        waiting.append(False)
         isinitialized.append(False)
         hit99.append(False)
         pointer.append(0)
-    
-    for amp in amps:
-        ampindex = amps.index(amp)
-        inputs.append([])
+  
         if ampindex == 0:
-            inputs[ampindex].append(0)
-        else:
-            inputs[ampindex].append(outputs[ampindex-1])
-
-        inputs[ampindex].append(startseq[ampindex])
-
-        evalpos(amps[ampindex],0)
+            inputs[ampindex].append(0) 
+        
+        inputs[ampindex].insert(0,startseq[ampindex])
+    print('inputs',inputs)
+    print('outputs',outputs)
+        
+    while not any(hit99):
+        print('waiting',waiting)
+        print('hit99',hit99)
+        for amp in amps:
+            ampindex = amps.index(amp)
+            if not waiting[ampindex]:
+                evalpos(amps[ampindex],pointer[ampindex])
 
     return outputs[len(outputs)-1]
 
-thrustlist = []
+print(evalthrust([9,7,8,5,6]))
+print('last data')
+print(mem)
+print('outputs',outputs)
+print('inputs',inputs)
+print(pointer)
+print('hit99', hit99)
 
-for seq in startseqlist:
-    thrustlist.append(evalthrust(seq))
+# thrustlist = []
 
-maxindex = thrustlist.index(max(thrustlist))
-print(thrustlist[maxindex],startseqlist[maxindex])
+# for seq in startseqlist:
+    # thrustlist.append(evalthrust(seq))
+
+# maxindex = thrustlist.index(max(thrustlist))
+# print(thrustlist[maxindex],startseqlist[maxindex])
     
 
  
