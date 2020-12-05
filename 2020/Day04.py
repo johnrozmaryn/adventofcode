@@ -44,30 +44,8 @@ for line in contents:
         splitline = stripline.split(' ')
         for item in splitline:
             s = item.split(':')
-            if s[0] == 'byr':
-                currentpassport.byr = s[1]
-                
-            if s[0] == 'iyr':
-                currentpassport.iyr = s[1]
-                
-            if s[0] == 'eyr':
-                currentpassport.eyr = s[1]
-                
-            if s[0] == 'hgt':
-                currentpassport.hgt = s[1]
-                
-            if s[0] == 'hcl':
-                currentpassport.hcl = s[1]
-                
-            if s[0] == 'ecl':
-                currentpassport.ecl = s[1] 
-                
-            if s[0] == 'pid':
-                currentpassport.pid = s[1]
-                
-            if s[0] == 'cid':
-                currentpassport.cid = s[1]     
-            
+            setattr(currentpassport,s[0],s[1])
+
 def Valid_byr(passin):
     if len(passin.byr) !=4 :
         return False
@@ -104,7 +82,7 @@ def Valid_hgt(passin):
                 if (hgt >= 150) and (hgt <= 193):
                     return True
         if units == 'in':
-             if passin.hgt[:-2].isnumeric():
+            if passin.hgt[:-2].isnumeric():
                 hgt = int(passin.hgt[:-2])
                 if (hgt >= 59) and (hgt <= 76):
                     return True       
