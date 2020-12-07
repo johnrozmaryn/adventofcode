@@ -30,8 +30,5 @@ def findholder(bagtofind):
             globalset.add(thing)
             findholder(thing)
             
-    
-    return templist
-
 findholder('shinygold')   
 print(len(globalset))

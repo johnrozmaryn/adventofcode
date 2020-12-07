@@ -23,7 +23,6 @@ def findindexbyname(bagtofind):
         if rulelist[i][0] == bagtofind:
             return i
         
-
 def numofbags(bagtofind):
     ruleindex = findindexbyname(bagtofind)
     if rulelist[ruleindex][1] == []:
