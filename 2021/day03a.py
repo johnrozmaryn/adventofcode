@@ -48,6 +48,8 @@ while len(co2list) > 1:
                 co2list = removeitems(co2list,i,0)
             
 print(int(oxlist[0].strip(),2) * int(co2list[0].strip(),2))
+
+
                          
             
  

@@ -27,5 +27,7 @@ def binlist2dec(binlist):
     return dec
         
 print(binlist2dec(gamma)* binlist2dec(epsilon))
+
+print(binlist2dec(gamma),binlist2dec(epsilon))
         
      
