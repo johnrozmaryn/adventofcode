@@ -4,7 +4,7 @@ save_data_on_exit = True
 save_history = True
 save_non_project_files = False
 project_type = 'empty-project-type'
-recent_files = ['..\\2021\\day02.py', 'day02.py', '..\\2021\\day03.py', '..\\..\\..\\Users\\JROZMARYN\\.spyder-py3\\temp.py']
+recent_files = ['day02.py', 'day03a.py', 'day03.py']
 
 [main]
 version = 0.2.0
