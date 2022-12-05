@@ -7,7 +7,7 @@ stackwidth = len(contents[0].strip('\n'))
 numstacks = stackwidth // 4 + 1
 
 stacklist = []
-for i in range(1,numstacks+1):
+for i in range(0,numstacks):
     stacklist.append([])
     
 Stackphase = True
