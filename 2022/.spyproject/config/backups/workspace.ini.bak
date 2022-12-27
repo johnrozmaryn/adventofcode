@@ -4,7 +4,7 @@ save_data_on_exit = True
 save_history = True
 save_non_project_files = False
 project_type = 'empty-project-type'
-recent_files = ['day02.py', 'day03a.py', 'day03.py', 'day04a.py', 'day05.in', 'day05.tst', 'day05.py', 'day05a.py', 'day08.py', 'day08.tst', 'day08a.py', 'day08aMods.py', 'day09.tst', 'day09.in', 'day09.py', 'day09a.py']
+recent_files = ['day25.in', 'day25.py', 'day25.tst', 'day25a.py']
 
 [main]
 version = 0.2.0
