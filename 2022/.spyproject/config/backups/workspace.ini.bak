@@ -4,7 +4,7 @@ save_data_on_exit = True
 save_history = True
 save_non_project_files = False
 project_type = 'empty-project-type'
-recent_files = ['day25.in', 'day25.py', 'day25.tst', 'day25a.py']
+recent_files = ['day14.in', 'day14.py', 'day13.py', 'day13.in', 'day14.tst', 'day14a.py', 'day20.in', 'day20.py', 'day06BonusSmallerpy.py', 'day06.py', 'day06a.py', 'day07.in', 'day07.py', 'day07a.py', 'day08.py', 'day08.in', 'day08.tst', 'day08a.py', 'day09.in', 'day09.py', 'day09a.py', 'day10.in', 'day10.py', 'day10a.py', 'day11.in', 'day11.py', 'day11a.py', 'day12.in', 'day12.py', 'day12.some', 'day12.tst', 'day12a.py', 'day13a.py', '..\\..\\Concord\\Concord.py', 'Day01.py']
 
 [main]
 version = 0.2.0
