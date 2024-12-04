@@ -1,0 +1,6 @@
+regex101.com
+
+"mul\(\d+,\d+\)"        --Seems to find all of the mul(nn,nn)
+
+do\(\)      -finds the do()
+don\'t\(\)   -find's the don't()
