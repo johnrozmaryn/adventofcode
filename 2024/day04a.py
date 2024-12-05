@@ -31,12 +31,3 @@ for r in range(rmin+1,rmax-1):
             
 print(tot)
     
-    
-
-
-
-
-
-# width = len(contents[0]) + 2
-# height = len(contents) + 2
-
