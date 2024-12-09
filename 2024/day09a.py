@@ -48,5 +48,9 @@ for line in charmap:
                 newy = pnt[0] +dy * i
                 if newx in range(cmin,cmax) and newy in range(rmin,rmax):
                     anode.add('r'+str(int(newx))+'c'+str(int(newy)))
-                    
+               
+
+                
+                
+                
 print(len(anode))
