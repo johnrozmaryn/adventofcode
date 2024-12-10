@@ -3,7 +3,7 @@ contents = (f.readlines())
 
 m = contents[0].strip()
 
-mt = []
+
 out = []
 
 def isnum(n):
@@ -18,21 +18,24 @@ while currins in range(len(m)):
         if isnum(currins):
             out.append(currnum)
         else:
-            out.append('.')
-            mt.append(pos)
+            out.append('.')       
         pos += 1
     if isnum(currins):
         currnum += 1
     currins += 1
-    
-for i in mt:
-    tmp = '.'
-    if i < len(out):
-        while tmp == '.':
-            tmp = out.pop()
-        if i < len(out)+1: 
+print(out)
+i = 0
+maxlen = len(out)-1
+while i < maxlen:
+    if out[i] == '.':
+        tmp = '.'
+        while tmp == '.' and i < len(out):
+            tmp = out.pop(-1)
+            maxlen -= 1
+        if i < maxlen:
             out[i] = tmp
-        
+    i += 1
+
 tot = 0
 for i in range(len(out)):
     tot += i * out[i]

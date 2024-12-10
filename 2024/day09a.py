@@ -1,56 +1,61 @@
-f = open("day08.in")
+f = open("day09.in")
 contents = (f.readlines())
 
-m = []
-
-for l in contents:
-    sl = []
-    for i in range(len(l.strip())):
-        sl.append(l[i])
-    m.append(sl)
-
-rmin = 0
-rmax = len(m)
-cmin = 0
-cmax = len(m[0])
-
-def isint(a):    #surely there's already a function for this?
-    return round(a) == a
+m = contents[0].strip()
 
 
-chars = set()
-for r in range(rmax):
-    for c in range(cmax):
-        if m[r][c] != '.':
-            chars.add(m[r][c])
-charlist = []
-for item in chars:
-    charlist.append(item)
+out = []
+
+def isnum(n):
+    return n % 2 == 0
+
+currnum = 0
+pos = 0
+currins = 0
+while currins in range(len(m)):
+    num = int(m[currins])
+    for i in range(num):
+        if isnum(currins):
+            out.append(currnum)
+        else:
+            out.append('.')       
+        pos += 1
+    if isnum(currins):
+        currnum += 1
+    currins += 1
     
-charmap = []
-for character in charlist:
-    line = []
-    for r in range(rmax):
-        for c in range(cmax):
-            if m[r][c] == character:
-                line.append([r,c])
-    charmap.append(line)
-    
-anode = set()
-for line in charmap:
-    while len(line) > 1:
-        pnt = line.pop()
-        for nxt in line:
-            dx = nxt[1] - pnt[1]
-            dy = nxt[0] - pnt[0]
-            for i in range(-50,50):  #this is horrible, but it works?
-                newx = pnt[1] +dx * i
-                newy = pnt[0] +dy * i
-                if newx in range(cmin,cmax) and newy in range(rmin,rmax):
-                    anode.add('r'+str(int(newx))+'c'+str(int(newy)))
-               
+def find_sublist(main_list, sub_list):
+    for i in range(len(main_list) - len(sub_list) + 1):
+        if main_list[i:i + len(sub_list)] == sub_list:
+            return i
+    return -1
 
-                
-                
-                
-print(len(anode))
+while currnum > 0:
+    if currnum in out:
+        i = out.index(currnum)
+        c = out.count(currnum)
+        s = find_sublist(out[0:i],['.']*c)
+        if s != -1:
+            for sl in range(c):
+                out[s+sl] = currnum
+                out[i+sl] = '.'
+    currnum -= 1
+    print(currnum)
+    
+tot = 0
+for i in range(len(out)):
+    if out[i] != '.':
+        tot += i * out[i]
+print(tot)
+
+        
+    
+
+    
+    
+
+
+    
+    
+        
+    
