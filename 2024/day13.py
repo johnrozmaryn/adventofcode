@@ -1,4 +1,4 @@
-f = open("day13.in")
+f = open("day13.tst")
 contents = f.readlines()
 
 machines = []
@@ -16,11 +16,33 @@ while l <= len(contents):
     p2 = p1.split(',')
     px = int(p2[1])
     py = int(p2[3])
-    machine = [ax,ay,bx,by,px,py]
+    machine = [ax,bx,px,ay,by,py]
     machines.append(machine)
     l+=2
     
+def isint(n):
+    return n % 2 == 0
     
+def sol(ax, bx, px, ay, by, py):
+
+    determinant = ax * by - ay * bx
+
+    a = (px * by - py * bx) / determinant
+    b = (ax * py - ay * px) / determinant
+    return int(a),int(b)
+
+tot = 0
+    
+for m in machines:
+    ax,bx,px,ay,by,py = m
+    a,b = sol(ax,bx,px,ay,by,py)
+    if (isint(a) and isint(b)) and a<100 and b<100:
+        print(a,b)
+        tot += a*3 + b
+print(tot)
+
+
+
 
     
 
