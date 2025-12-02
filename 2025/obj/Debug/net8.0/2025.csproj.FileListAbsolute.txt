@@ -1,0 +1,15 @@
+C:\code\adventofcode\2025\bin\Debug\net8.0\2025.exe
+C:\code\adventofcode\2025\bin\Debug\net8.0\2025.deps.json
+C:\code\adventofcode\2025\bin\Debug\net8.0\2025.runtimeconfig.json
+C:\code\adventofcode\2025\bin\Debug\net8.0\2025.dll
+C:\code\adventofcode\2025\bin\Debug\net8.0\2025.pdb
+C:\code\adventofcode\2025\obj\Debug\net8.0\2025.GeneratedMSBuildEditorConfig.editorconfig
+C:\code\adventofcode\2025\obj\Debug\net8.0\2025.AssemblyInfoInputs.cache
+C:\code\adventofcode\2025\obj\Debug\net8.0\2025.AssemblyInfo.cs
+C:\code\adventofcode\2025\obj\Debug\net8.0\2025.csproj.CoreCompileInputs.cache
+C:\code\adventofcode\2025\obj\Debug\net8.0\2025.sourcelink.json
+C:\code\adventofcode\2025\obj\Debug\net8.0\2025.dll
+C:\code\adventofcode\2025\obj\Debug\net8.0\refint\2025.dll
+C:\code\adventofcode\2025\obj\Debug\net8.0\2025.pdb
+C:\code\adventofcode\2025\obj\Debug\net8.0\2025.genruntimeconfig.cache
+C:\code\adventofcode\2025\obj\Debug\net8.0\ref\2025.dll
